@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Guidance Advisory Report — {{ student_name }}</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            background-color: #f1f5f9;
+        }
+        .report-sheet {
+            background: white;
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 50px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-radius: 8px;
+        }
+        @media print {
+            body { background: white; }
+            .report-sheet { box-shadow: none; margin: 0; padding: 20px; max-width: 100%; }
+            .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating Action Bar for Web View -->
+    <div class="container text-center my-3 no-print">
+        <button onclick="window.print()" class="btn btn-primary btn-lg px-4 shadow">
+            <i class="bi bi-printer-fill me-2"></i> Print / Save as PDF
+        </button>
+        <a href="{{ url_for('results') }}" class="btn btn-outline-secondary btn-lg px-4 ms-2">
+            <i class="bi bi-arrow-left me-2"></i> Back to Dashboard
+        </a>
+    </div>
+
+    <!-- Official Report Sheet -->
+    <div class="report-sheet">
+        <!-- Academic Header -->
+        <div class="d-flex justify-content-between align-items-center border-bottom pb-4 mb-4">
+            <div>
+                <h4 class="fw-bold mb-1 text-primary">CareerWise AI — Expert System</h4>
+                <div class="text-muted small">Intelligent Career Guidance & Competency Diagnostic</div>
+                <div class="small fw-semibold text-secondary">AIES Academic Subject Evaluation | TE Computer Engineering</div>
+            </div>
+            <div class="text-end">
+                <span class="badge bg-primary fs-6 px-3 py-2">Official Evaluation</span>
+                <div class="small text-muted mt-1">Generated: Real-Time Session</div>
+            </div>
+        </div>
+
+        <!-- Student Profile Metadata -->
+        <div class="bg-light p-3 rounded mb-4">
+            <div class="row g-2 small">
+                <div class="col-sm-6">
+                    <span class="text-muted">Candidate Name:</span> <strong>{{ student_name }}</strong>
+                </div>
+                <div class="col-sm-6">
+                    <span class="text-muted">Inference Mode:</span> <strong>Forward Chaining + MCDA</strong>
+                </div>
+                <div class="col-sm-6">
+                    <span class="text-muted">Evaluated Rules:</span> <strong>{{ results.trace.total_rules_evaluated }} Production Rules</strong>
+                </div>
+                <div class="col-sm-6">
+                    <span class="text-muted">Certainty Algebra:</span> <strong>MYCIN Combination Formula</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Executive Summary: Top 3 Recommendations -->
+        <div class="mb-4">
+            <h5 class="fw-bold border-bottom pb-2 mb-3 text-dark">
+                1. Executive Summary: Top 3 Recommended Career Paths
+            </h5>
+            <div class="table-responsive">
+                <table class="table table-bordered align-middle small">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Rank</th>
+                            <th>Career Track</th>
+                            <th>Certainty Factor (CF)</th>
+                            <th>Skill Alignment</th>
+                            <th>Composite Match</th>
+                            <th>Market Salary Outlook</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in results.top_recommendations %}
+                        {% set c = item.evaluation %}
+                        <tr {% if item.rank == 1 %}class="table-primary fw-bold"{% endif %}>
+                            <td>Rank #{{ item.rank }}</td>
+                            <td>{{ c.title }}</td>
+                            <td>{{ c.certainty_factor }} ({{ c.certainty_pct }}%)</td>
+                            <td>{{ c.skill_match_pct }}%</td>
+                            <td class="text-primary">{{ c.composite_score }}%</td>
+                            <td>{{ c.salary_range }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Detailed Breakdown of Primary Trajectory -->
+        {% set top1 = results.top_recommendations[0] %}
+        <div class="mb-4">
+            <h5 class="fw-bold border-bottom pb-2 mb-3 text-dark">
+                2. Primary Career Trajectory Analysis: {{ top1.evaluation.title }}
+            </h5>
+            <p class="small text-muted mb-2"><strong>Core Role Description:</strong> {{ top1.evaluation.description }}</p>
+
+            <h6 class="fw-bold small text-primary mt-3 mb-2">Why This Career Was Recommended:</h6>
+            <ul class="small text-muted ps-3 mb-3">
+                {% for pt in top1.why_explanation.summary_points %}
+                <li>{{ pt }}</li>
+                {% endfor %}
+            </ul>
+
+            <h6 class="fw-bold small text-primary mb-2">Supporting Production Rules Fired:</h6>
+            <div class="table-responsive mb-3">
+                <table class="table table-sm table-bordered font-mono small">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Rule ID</th>
+                            <th>Rule Name</th>
+                            <th>Evidence Contribution</th>
+                            <th>Expert System Rationale</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for r in top1.why_explanation.supporting_rules %}
+                        <tr>
+                            <td>{{ r.rule_id }}</td>
+                            <td>{{ r.rule_name }}</td>
+                            <td class="text-success">+{{ r.rule_cf }}</td>
+                            <td class="font-sans small">{{ r.explanation }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 3-Phase Action Plan & Roadmap -->
+        {% set rm = top1.roadmap %}
+        <div class="mb-4">
+            <h5 class="fw-bold border-bottom pb-2 mb-3 text-dark">
+                3. Curated 3-Phase Upskilling Roadmap
+            </h5>
+            
+            <div class="row g-3 small">
+                <div class="col-md-4">
+                    <div class="p-3 border rounded h-100 bg-light">
+                        <strong class="text-primary d-block mb-1">{{ rm.phase_1.title }}</strong>
+                        <span class="badge bg-secondary mb-2">{{ rm.phase_1.duration }}</span>
+                        <ul class="ps-3 text-muted mb-0">
+                            {% for g in rm.phase_1.goals %}
+                            <li>{{ g }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="p-3 border rounded h-100 bg-light">
+                        <strong class="text-purple d-block mb-1" style="color: #7c3aed;">{{ rm.phase_2.title }}</strong>
+                        <span class="badge bg-secondary mb-2">{{ rm.phase_2.duration }}</span>
+                        <ul class="ps-3 text-muted mb-0">
+                            {% for g in rm.phase_2.goals %}
+                            <li>{{ g }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="p-3 border rounded h-100 bg-light">
+                        <strong class="text-success d-block mb-1">{{ rm.phase_3.title }}</strong>
+                        <span class="badge bg-secondary mb-2">{{ rm.phase_3.duration }}</span>
+                        <ul class="ps-3 text-muted mb-0">
+                            {% for g in rm.phase_3.goals %}
+                            <li>{{ g }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-3 p-3 border rounded bg-white small">
+                <strong>Recommended Capstone Project:</strong> {{ rm.capstone_project }}
+            </div>
+        </div>
+
+        <!-- Academic Sign-Off Block -->
+        <div class="border-top pt-4 mt-5">
+            <div class="row text-center small text-muted">
+                <div class="col-4">
+                    <div class="border-bottom pb-4 mb-2"></div>
+                    <div>Candidate Signature</div>
+                </div>
+                <div class="col-4">
+                    <div class="border-bottom pb-4 mb-2"></div>
+                    <div>Project Guide / Evaluator</div>
+                </div>
+                <div class="col-4">
+                    <div class="border-bottom pb-4 mb-2"></div>
+                    <div>AIES Subject In-Charge</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Goal-Driven Diagnostic (Backward Chaining) — CareerWise AI{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 1050px;">
+    <!-- Header & Concept Card -->
+    <div class="card card-modern mb-4">
+        <div class="card-body p-4">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                <div>
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                        <span class="badge bg-purple text-white px-2 py-1 font-mono small" style="background-color: #7c3aed;">
+                            Goal-Driven Reasoning
+                        </span>
+                        <h3 class="fw-bold mb-0">Backward Chaining Diagnostic</h3>
+                    </div>
+                    <p class="text-muted small mb-0">
+                        Formulate a target career goal hypothesis and let the inference engine work backwards to evaluate whether all prerequisite leaf facts are satisfied.
+                    </p>
+                </div>
+                <div>
+                    <span class="badge bg-light text-dark border p-2 small">
+                        <i class="bi bi-diagram-2 me-1"></i>Goal &rarr; Rules &rarr; Subgoals &rarr; Leaf Facts
+                    </span>
+                </div>
+            </div>
+
+            <!-- Target Selection Toolbar -->
+            <div class="row g-3 align-items-end mt-3 pt-3 border-top">
+                <div class="col-md-5">
+                    <label class="form-label small fw-bold">Select Target Career Hypothesis (Goal):</label>
+                    <select class="form-select" id="target_career_select" onchange="runDiagnostic()">
+                        {% for cid, c in careers.items() %}
+                        <option value="{{ cid }}" {% if cid == 'ai_ml_engineer' %}selected{% endif %}>
+                            {{ c.title }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-5">
+                    <label class="form-label small fw-bold">Test Candidate Facts (Working Memory):</label>
+                    <div class="d-flex flex-wrap gap-1">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="loadPresetIntoBackward('profile_ai')">
+                            Aarav (AI)
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="loadPresetIntoBackward('profile_cyber')">
+                            Neha (Cyber)
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="loadPresetIntoBackward('profile_cloud')">
+                            Rohan (Cloud)
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="loadPresetIntoBackward('profile_swe')">
+                            Sneha (SWE)
+                        </button>
+                    </div>
+                    <div class="small text-muted mt-1" id="active_student_profile_label">Active Profile: Aarav Sharma (AI)</div>
+                </div>
+
+                <div class="col-md-2 text-md-end">
+                    <button type="button" class="btn btn-primary w-100 fw-semibold" onclick="runDiagnostic()">
+                        <i class="bi bi-play-fill me-1"></i> Diagnose
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Diagnostic Dynamic Container -->
+    <div id="diagnostic_results_container">
+        <!-- Rendered asynchronously by static/js/backward.js -->
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/backward.js') }}"></script>
+{% endblock %}

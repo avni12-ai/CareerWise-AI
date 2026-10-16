@@ -1,0 +1,291 @@
+{% extends "base.html" %}
+
+{% block title %}CareerWise AI — Intelligent Career Guidance Expert System{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Hero Banner -->
+    <div class="hero-banner shadow-lg mb-5">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-8">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="badge bg-primary px-3 py-2 rounded-pill fw-semibold">
+                        <i class="bi bi-mortarboard-fill me-1"></i> AIES Final Year / TE Project
+                    </span>
+                    <span class="badge bg-secondary-subtle text-white-50 px-2 py-1 rounded">Semester VI</span>
+                </div>
+                <h1 class="display-5 fw-extrabold text-white mb-3">
+                    Intelligent Career Guidance <span class="text-primary-gradient">Expert System</span>
+                </h1>
+                <p class="lead text-light opacity-90 mb-4" style="max-width: 680px;">
+                    A rule-based Artificial Intelligence expert system demonstrating 
+                    <strong>Forward Chaining</strong>, <strong>Backward Chaining</strong>, 
+                    <strong>MYCIN Certainty Factors</strong>, and deep <strong>Justification Facilities</strong> 
+                    to steer engineering students toward optimal career trajectories.
+                </p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="{{ url_for('assessment') }}" class="btn btn-primary btn-lg px-4 rounded-pill fw-bold shadow">
+                        <i class="bi bi-play-circle-fill me-2"></i> Launch Assessment
+                    </a>
+                    <a href="{{ url_for('kb_explorer') }}" class="btn btn-outline-light btn-lg px-4 rounded-pill fw-semibold">
+                        <i class="bi bi-database-check me-2"></i> Inspect Knowledge Base
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 text-center">
+                <div class="p-4 bg-white bg-opacity-10 rounded-4 border border-white border-opacity-20 backdrop-blur">
+                    <h5 class="fw-bold text-white mb-3"><i class="bi bi-cpu-fill text-warning me-2"></i>System Metrics</h5>
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="p-2 bg-black bg-opacity-25 rounded">
+                                <div class="fs-3 fw-bold text-primary-gradient">{{ total_careers }}</div>
+                                <div class="text-white-50 small">Target Careers</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-2 bg-black bg-opacity-25 rounded">
+                                <div class="fs-3 fw-bold text-primary-gradient">{{ total_rules }}</div>
+                                <div class="text-white-50 small">Production Rules</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-2 bg-black bg-opacity-25 rounded">
+                                <div class="fs-3 fw-bold text-primary-gradient">{{ total_skills }}</div>
+                                <div class="text-white-50 small">Tracked Skills</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-2 bg-black bg-opacity-25 rounded">
+                                <div class="fs-3 fw-bold text-success">Dual</div>
+                                <div class="text-white-50 small">Chaining Modes</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Live Viva Demonstration Profiles -->
+    <div class="card card-modern mb-5 border-start border-4 border-primary">
+        <div class="card-body p-4">
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                <div>
+                    <h4 class="fw-bold mb-1"><i class="bi bi-lightning-charge-fill text-warning me-2"></i>Live Viva Quick Demo Launchpad</h4>
+                    <p class="text-muted small mb-0">For college evaluators & examiners: test the inference engine instantly with pre-calibrated student profiles.</p>
+                </div>
+                <span class="badge bg-primary-subtle text-primary fw-semibold px-3 py-2">One-Click Demonstration</span>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-md-6 col-lg-3">
+                    <div class="p-3 border rounded-3 bg-light h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <span class="badge bg-purple text-white" style="background-color: #7c3aed;">AI & Data</span>
+                                <strong class="small">Aarav Sharma</strong>
+                            </div>
+                            <p class="small text-muted mb-3">Strong in Python, ML, Linear Algebra, and Statistics. Enjoys theoretical research.</p>
+                        </div>
+                        <a href="{{ url_for('assessment') }}?preset=profile_ai" class="btn btn-sm btn-outline-primary w-100 fw-semibold">
+                            <i class="bi bi-box-arrow-in-right me-1"></i> Test AI Profile
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="p-3 border rounded-3 bg-light h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <span class="badge bg-danger">Cybersecurity</span>
+                                <strong class="small">Neha Patel</strong>
+                            </div>
+                            <p class="small text-muted mb-3">High networking proficiency, OS internals, cryptography, and network defense mindset.</p>
+                        </div>
+                        <a href="{{ url_for('assessment') }}?preset=profile_cyber" class="btn btn-sm btn-outline-danger w-100 fw-semibold">
+                            <i class="bi bi-box-arrow-in-right me-1"></i> Test Cyber Profile
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="p-3 border rounded-3 bg-light h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <span class="badge bg-info text-dark">Cloud & DevOps</span>
+                                <strong class="small">Rohan Verma</strong>
+                            </div>
+                            <p class="small text-muted mb-3">Hands-on with AWS, Docker, Kubernetes, Linux shell, and CI/CD pipelines.</p>
+                        </div>
+                        <a href="{{ url_for('assessment') }}?preset=profile_cloud" class="btn btn-sm btn-outline-info w-100 fw-semibold text-dark">
+                            <i class="bi bi-box-arrow-in-right me-1"></i> Test Cloud Profile
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="p-3 border rounded-3 bg-light h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <span class="badge bg-primary">Full-Stack</span>
+                                <strong class="small">Sneha Kulkarni</strong>
+                            </div>
+                            <p class="small text-muted mb-3">Advanced DSA, C++, Java, relational databases, web development, and Git.</p>
+                        </div>
+                        <a href="{{ url_for('assessment') }}?preset=profile_swe" class="btn btn-sm btn-outline-primary w-100 fw-semibold">
+                            <i class="bi bi-box-arrow-in-right me-1"></i> Test SWE Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core AIES Architectural Modules -->
+    <div class="mb-5">
+        <div class="text-center mb-4">
+            <span class="badge bg-primary-subtle text-primary fw-bold px-3 py-1 mb-2">Classic AI Architecture</span>
+            <h3 class="fw-bold">How the Expert System Works</h3>
+            <p class="text-muted" style="max-width: 600px; margin: 0 auto;">
+                Unlike opaque black-box machine learning models, CareerWise AI implements an interpretable expert system with complete causal traceability.
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card card-modern h-100 p-3">
+                    <div class="card-body">
+                        <div class="brand-icon mb-3 bg-primary">
+                            <i class="bi bi-database-fill"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">1. Knowledge Base (KB)</h5>
+                        <p class="text-muted small">
+                            Stores declarative domain knowledge compiled from career counseling experts:
+                            formal production rules (<code>IF-THEN</code>), career competency benchmarks, and Certainty Factor (CF) parameters.
+                        </p>
+                        <div class="badge bg-light text-primary border font-mono small">Declarative Knowledge</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card card-modern h-100 p-3">
+                    <div class="card-body">
+                        <div class="brand-icon mb-3 bg-purple" style="background-color: #7c3aed;">
+                            <i class="bi bi-gear-wide-connected"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">2. Dual Inference Engine</h5>
+                        <p class="text-muted small">
+                            Executes <strong>Forward Chaining</strong> (data-driven deduction from student facts) and 
+                            <strong>Backward Chaining</strong> (goal-driven eligibility diagnostic) using <strong>MYCIN combination algebra</strong>.
+                        </p>
+                        <div class="badge bg-light text-purple border font-mono small" style="color: #7c3aed;">Forward + Backward</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card card-modern h-100 p-3">
+                    <div class="card-body">
+                        <div class="brand-icon mb-3 bg-success">
+                            <i class="bi bi-journal-text"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">3. Explanation Facility</h5>
+                        <p class="text-muted small">
+                            Crucial component in Expert Systems: answers <strong>WHY</strong> a career was recommended, 
+                            <strong>HOW</strong> the score was derived step-by-step, and <strong>WHY NOT</strong> for unranked paths.
+                        </p>
+                        <div class="badge bg-light text-success border font-mono small">Why & How Justifications</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supported Career Paths Grid -->
+    <div class="mb-5">
+        <h4 class="fw-bold mb-3"><i class="bi bi-briefcase-fill text-primary me-2"></i>Supported Career Trajectories</h4>
+        <div class="row g-3">
+            {% for cid, c in careers.items() %}
+            <div class="col-md-6 col-lg-3">
+                <div class="card card-modern h-100 p-3 border-top border-3" style="border-top-color: {{ c.badge_color }} !important;">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <span class="brand-icon" style="background-color: {{ c.badge_color }}; width: 28px; height: 28px; font-size: 0.85rem;">
+                            <i class="bi {{ c.icon }}"></i>
+                        </span>
+                        <h6 class="fw-bold mb-0 text-truncate" title="{{ c.title }}">{{ c.title.split('/')[0] }}</h6>
+                    </div>
+                    <p class="small text-muted mb-2" style="font-size: 0.82rem; min-height: 48px;">{{ c.description }}</p>
+                    <div class="d-flex justify-content-between align-items-center mt-auto pt-2 border-top">
+                        <span class="badge bg-light text-dark small" style="font-size: 0.75rem;">{{ c.category }}</span>
+                        <span class="badge bg-success-subtle text-success small" style="font-size: 0.72rem;">Active Rule Set</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Academic Viva Q&A Cheat Sheet Accordion -->
+    <div class="card card-modern mb-5">
+        <div class="card-header-styled bg-light">
+            <h5 class="fw-bold mb-0"><i class="bi bi-question-circle-fill text-primary me-2"></i>AIES Academic Viva & Theory Guide</h5>
+        </div>
+        <div class="card-body p-4">
+            <div class="accordion accordion-flush" id="vivaAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#viva1">
+                            Q1: Why use an Expert System instead of a Machine Learning (Neural Network) model for career guidance?
+                        </button>
+                    </h2>
+                    <div id="viva1" class="accordion-collapse collapse" data-bs-parent="#vivaAccordion">
+                        <div class="accordion-body small text-muted">
+                            <strong>Answer:</strong> Machine Learning models (like deep neural networks) operate as black boxes where decisions cannot be causally explained to a student. In educational guidance, trust, accountability, and explainability are paramount. An Expert System provides:
+                            <ol class="mt-2 mb-0">
+                                <li><strong>Full Explainability:</strong> The Explanation Facility reveals exact rules, prerequisite checks, and mathematical score derivations.</li>
+                                <li><strong>Deterministic Predictability:</strong> Domain heuristics are guaranteed without hallucination.</li>
+                                <li><strong>Zero Cold-Start:</strong> Does not require tens of thousands of labeled historical student records to work reliably.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#viva2">
+                            Q2: How does Forward Chaining differ from Backward Chaining in this system?
+                        </button>
+                    </h2>
+                    <div id="viva2" class="accordion-collapse collapse" data-bs-parent="#vivaAccordion">
+                        <div class="accordion-body small text-muted">
+                            <strong>Answer:</strong>
+                            <ul>
+                                <li><strong>Forward Chaining (Data-Driven):</strong> Starts with user-asserted facts (working memory) &rarr; matches antecedents of production rules &rarr; fires satisfied rules &rarr; derives top career recommendations.</li>
+                                <li><strong>Backward Chaining (Goal-Driven):</strong> Starts with a hypothesis (e.g. <em>"Can this student qualify as an AI/ML Engineer?"</em>) &rarr; finds rules concluding that goal &rarr; checks if required subgoals/prerequisites are satisfied in working memory &rarr; diagnoses exact skill deficits and blockers.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#viva3">
+                            Q3: What mathematical formula is used for Certainty Factor (CF) propagation?
+                        </button>
+                    </h2>
+                    <div id="viva3" class="accordion-collapse collapse" data-bs-parent="#vivaAccordion">
+                        <div class="accordion-body small text-muted">
+                            <strong>Answer:</strong> We employ the classical <strong>MYCIN combination formula (Shortliffe & Buchanan)</strong>:
+                            <div class="p-2 bg-light rounded font-mono my-2 text-dark">
+                                CF_combined = CF_prior + CF_rule &times; (1 &minus; CF_prior)
+                            </div>
+                            When multiple independent production rules provide supporting evidence for a career hypothesis, the cumulative Certainty Factor increases monotonically toward 1.0 (100% certainty), modeling human expert reasoning under uncertainty.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

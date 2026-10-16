@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+
+{% block title %}Knowledge Base Inspector — CareerWise AI{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 1200px;">
+    <!-- Page Header -->
+    <div class="card card-modern mb-4">
+        <div class="card-body p-4">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                <div>
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                        <span class="badge bg-primary text-white font-mono small">Declarative Knowledge Base</span>
+                        <h3 class="fw-bold mb-0">Expert System Knowledge Base Inspector</h3>
+                    </div>
+                    <p class="text-muted small mb-0">
+                        Inspect the compiled domain heuristics, production rules (<code>IF-THEN</code>), Certainty Factors, and career competency benchmarks.
+                    </p>
+                </div>
+                <div class="d-flex gap-2">
+                    <span class="badge bg-light text-dark border p-2">
+                        <i class="bi bi-shield-check text-success me-1"></i> Transparent & Verifiable
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Metrics Bar -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="card card-modern p-3 text-center">
+                <div class="fs-3 fw-bold text-primary font-mono">{{ rules|length }}</div>
+                <div class="text-muted small">Compiled Production Rules</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card card-modern p-3 text-center">
+                <div class="fs-3 fw-bold text-purple font-mono" style="color: #7c3aed;">{{ careers|length }}</div>
+                <div class="text-muted small">Target Career Taxonomies</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card card-modern p-3 text-center">
+                <div class="fs-3 fw-bold text-success font-mono">{{ skills|length }}</div>
+                <div class="text-muted small">Tracked Competencies</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card card-modern p-3 text-center">
+                <div class="fs-3 fw-bold text-info font-mono">{{ subjects|length }}</div>
+                <div class="text-muted small">Academic University Subjects</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Production Rules Table -->
+    <div class="card card-modern mb-5">
+        <div class="card-header-styled bg-light d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div>
+                <h5 class="fw-bold mb-0"><i class="bi bi-file-earmark-code-fill text-primary me-2"></i>Production Rule Base</h5>
+                <span class="text-muted small">Declarative rules governing forward and backward inference.</span>
+            </div>
+            <div class="d-flex gap-2">
+                <input type="text" class="form-control form-control-sm" id="rule_search_input" placeholder="Search rules..." onkeyup="filterRulesTable()">
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered mb-0 align-middle small" id="rules_table">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 130px;">Rule ID</th>
+                            <th>Rule Name & Category</th>
+                            <th style="width: 32%;">Antecedents (IF Conditions)</th>
+                            <th style="width: 25%;">Consequent (THEN Action)</th>
+                            <th>Domain Rationale</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for r in rules %}
+                        <tr>
+                            <td>
+                                <span class="badge bg-dark font-mono">{{ r.id }}</span>
+                            </td>
+                            <td>
+                                <strong class="d-block text-primary">{{ r.name }}</strong>
+                                <span class="badge bg-light text-muted border font-mono small" style="font-size: 0.7rem;">{{ r.category }}</span>
+                            </td>
+                            <td>
+                                <div class="font-mono small">
+                                    {% if 'skills' in r.conditions %}
+                                        <div class="mb-1">
+                                            <strong>Skills:</strong>
+                                            {% for sk, cond in r.conditions.skills.items() %}
+                                                <code>{{ sk }} {{ cond[0] }} {{ cond[1] }}</code>{% if not loop.last %}, {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    {% if 'interests' in r.conditions %}
+                                        <div class="mb-1">
+                                            <strong>Interests:</strong>
+                                            {% for i in r.conditions.interests %}
+                                                <span class="badge bg-secondary-subtle text-secondary small">{{ i }}</span>{% if not loop.last %} {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    {% if 'subjects' in r.conditions %}
+                                        <div class="mb-1">
+                                            <strong>Academics:</strong>
+                                            {% for sub, cond in r.conditions.subjects.items() %}
+                                                <code>{{ sub }} {{ cond[0] }} {{ cond[1] }}</code>{% if not loop.last %}, {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    {% if 'work_style' in r.conditions %}
+                                        <div>
+                                            <strong>Work:</strong> <code>{{ r.conditions.work_style }}</code>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td>
+                                {% for target, cf in r.consequent.items() %}
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <span class="fw-semibold text-truncate">{{ careers[target].title.split('/')[0] if target in careers else target }}</span>
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle font-mono">CF: {{ cf }}</span>
+                                </div>
+                                {% endfor %}
+                            </td>
+                            <td class="text-muted" style="font-size: 0.8rem;">
+                                {{ r.explanation }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Career Profiles & Benchmark Matrix -->
+    <div class="card card-modern mb-5">
+        <div class="card-header-styled bg-light">
+            <h5 class="fw-bold mb-0"><i class="bi bi-briefcase text-primary me-2"></i>Career Profiles & Benchmark Competencies</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered mb-0 align-middle small">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Career Track</th>
+                            <th>Category</th>
+                            <th>Benchmark Skills (Level 1-5)</th>
+                            <th>Critical Skills</th>
+                            <th>Market Salary Range</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cid, c in careers.items() %}
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="brand-icon" style="background-color: {{ c.badge_color }}; width: 28px; height: 28px; font-size: 0.85rem;">
+                                        <i class="bi {{ c.icon }}"></i>
+                                    </div>
+                                    <strong>{{ c.title }}</strong>
+                                </div>
+                            </td>
+                            <td><span class="badge bg-light text-dark border">{{ c.category }}</span></td>
+                            <td>
+                                <div class="d-flex flex-wrap gap-1">
+                                    {% for sk, req in c.core_skills.items() %}
+                                    <span class="badge bg-light text-dark border small" style="font-size: 0.72rem;">
+                                        {{ skills[sk].name if sk in skills else sk }}: <strong>Lvl {{ req }}</strong>
+                                    </span>
+                                    {% endfor %}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex flex-wrap gap-1">
+                                    {% for cr in c.critical_skills %}
+                                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle small" style="font-size: 0.72rem;">
+                                        {{ skills[cr].name if cr in skills else cr }}
+                                    </span>
+                                    {% endfor %}
+                                </div>
+                            </td>
+                            <td class="text-muted fw-semibold">{{ c.salary_range }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mathematical Formalism Section -->
+    <div class="card card-modern mb-5">
+        <div class="card-header-styled bg-light">
+            <h5 class="fw-bold mb-0"><i class="bi bi-calculator text-primary me-2"></i>Mathematical Formalism in CareerWise AI</h5>
+        </div>
+        <div class="card-body p-4 small text-muted">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <h6 class="fw-bold text-dark">1. MYCIN Certainty Factor Combination Formula</h6>
+                    <p>
+                        Certainty factors represent inexact reasoning and confidence under partial information. When multiple independent rules $R_1$ and $R_2$ conclude hypothesis $H$:
+                    </p>
+                    <div class="p-3 bg-light rounded font-mono text-dark mb-2">
+                        CF_combined(H) = CF(H, R1) + CF(H, R2) &times; [1 &minus; CF(H, R1)]
+                    </div>
+                    <p class="mb-0">
+                        This guarantees asymptotic convergence toward 1.0 (absolute certainty) without ever exceeding the ceiling.
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <h6 class="fw-bold text-dark">2. Composite Suitability Score (Multi-Criteria MCDA)</h6>
+                    <p>
+                        The composite score harmonizes rule inference with continuous competency benchmarks and university coursework:
+                    </p>
+                    <div class="p-3 bg-light rounded font-mono text-dark mb-2">
+                        Score = 0.40 &times; CF% + 0.35 &times; SkillMatch% + 0.15 &times; Academics% + 0.10 &times; Interest%
+                    </div>
+                    <p class="mb-0">
+                        Critical skills carry a 1.5&times; multiplier to prevent students with major blockers from ranking highly.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function filterRulesTable() {
+    const input = document.getElementById("rule_search_input");
+    const filter = input.value.toLowerCase();
+    const table = document.getElementById("rules_table");
+    const tr = table.getElementsByTagName("tr");
+
+    for (let i = 1; i < tr.length; i++) {
+        const text = tr[i].textContent.toLowerCase();
+        if (text.indexOf(filter) > -1) {
+            tr[i].style.display = "";
+        } else {
+            tr[i].style.display = "none";
+        }
+    }
+}
+</script>
+{% endblock %}

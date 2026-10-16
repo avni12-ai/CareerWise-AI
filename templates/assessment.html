@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+
+{% block title %}Career Assessment Questionnaire — CareerWise AI{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 1050px;">
+    <!-- Page Header & 1-Click Viva Presets -->
+    <div class="card card-modern mb-4">
+        <div class="card-body p-4">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                <div>
+                    <h3 class="fw-bold mb-1">
+                        <i class="bi bi-ui-checks-grid text-primary me-2"></i>Comprehensive Career Assessment
+                    </h3>
+                    <p class="text-muted small mb-0">
+                        Assess technical proficiencies, subject grades, domain interests, and work preferences.
+                    </p>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <span class="small fw-bold text-muted text-nowrap"><i class="bi bi-magic me-1"></i>Quick Fill Preset:</span>
+                    <select class="form-select form-select-sm" id="preset_quick_selector" onchange="loadPresetProfile(this.value)">
+                        <option value="">-- Choose a Preset Profile --</option>
+                        <option value="profile_ai">Aarav (AI & Machine Learning)</option>
+                        <option value="profile_cyber">Neha (Cybersecurity & Networks)</option>
+                        <option value="profile_cloud">Rohan (Cloud & DevOps SRE)</option>
+                        <option value="profile_swe">Sneha (Full-Stack & Algorithms)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div id="preset_alert" class="alert alert-success mt-3 py-2 px-3 small d-none" role="alert">
+                Preset loaded successfully!
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Assessment Form -->
+    <form id="assessment_form">
+        <!-- 0. Student Information Card -->
+        <div class="card card-modern mb-4">
+            <div class="card-header-styled bg-light">
+                <h6 class="fw-bold mb-0"><i class="bi bi-person-badge-fill text-primary me-2"></i>Candidate Information</h6>
+            </div>
+            <div class="card-body p-4">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold">Full Name / Candidate ID</label>
+                        <input type="text" class="form-control" id="student_name_input" value="Aarav Sharma" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold">Academic Program & Year</label>
+                        <input type="text" class="form-control" value="Third Year (TE) - Computer Engineering" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 1. Technical Proficiencies (1 to 5 Stars/Buttons) -->
+        <div class="card card-modern mb-4">
+            <div class="card-header-styled d-flex justify-content-between align-items-center bg-light">
+                <div>
+                    <h5 class="fw-bold mb-0"><i class="bi bi-tools text-primary me-2"></i>Section 1: Technical Proficiencies</h5>
+                    <span class="text-muted small">Rate your honest capability on a scale from Level 1 (Novice) to Level 5 (Expert).</span>
+                </div>
+                <span class="badge bg-primary rounded-pill">23 Skills</span>
+            </div>
+            <div class="card-body p-4">
+                {% for category_name, skills_in_cat in skill_categories.items() %}
+                <div class="mb-4">
+                    <h6 class="fw-bold text-secondary text-uppercase small border-bottom pb-2 mb-3">
+                        <i class="bi bi-folder2-open me-2 text-primary"></i>{{ category_name }}
+                    </h6>
+                    <div class="row g-3">
+                        {% for sk in skills_in_cat %}
+                        <div class="col-md-6">
+                            <div class="skill-card">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <strong class="small">{{ sk.name }}</strong>
+                                    <span class="rating-label-display" id="label_skill_{{ sk.id }}">Level 1</span>
+                                </div>
+                                <p class="text-muted small mb-2" style="font-size: 0.78rem;">{{ sk.desc }}</p>
+                                
+                                <input type="hidden" name="skill_{{ sk.id }}" id="input_skill_{{ sk.id }}" value="1">
+                                <div class="rating-button-group" data-skill="{{ sk.id }}">
+                                    <button type="button" class="rating-btn active" data-val="1">1</button>
+                                    <button type="button" class="rating-btn" data-val="2">2</button>
+                                    <button type="button" class="rating-btn" data-val="3">3</button>
+                                    <button type="button" class="rating-btn" data-val="4">4</button>
+                                    <button type="button" class="rating-btn" data-val="5">5</button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- 2. Core Domain Interests -->
+        <div class="card card-modern mb-4">
+            <div class="card-header-styled bg-light">
+                <h5 class="fw-bold mb-0"><i class="bi bi-heart-fill text-danger me-2"></i>Section 2: Domain Interests & Passions</h5>
+                <span class="text-muted small">Select the areas you genuinely enjoy spending hours exploring or researching.</span>
+            </div>
+            <div class="card-body p-4">
+                <div class="row g-3">
+                    {% for int_id, int_data in interests.items() %}
+                    <div class="col-md-6">
+                        <div class="interest-checkbox-card">
+                            <div class="form-check d-flex align-items-start gap-2">
+                                <input class="form-check-input mt-1" type="checkbox" name="interests" value="{{ int_id }}" id="chk_{{ int_id }}">
+                                <label class="form-check-label w-100" for="chk_{{ int_id }}">
+                                    <div class="fw-bold small">{{ int_data.name }}</div>
+                                    <div class="text-muted small" style="font-size: 0.8rem;">{{ int_data.desc }}</div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. University Subjects & Academic Performance -->
+        <div class="card card-modern mb-4">
+            <div class="card-header-styled bg-light">
+                <h5 class="fw-bold mb-0"><i class="bi bi-book-half text-success me-2"></i>Section 3: Academic Subjects & University Grades</h5>
+                <span class="text-muted small">Expert systems utilize academic history as foundational evidence of theoretical competence.</span>
+            </div>
+            <div class="card-body p-4">
+                <div class="row g-3">
+                    {% for sub_id, sub_data in subjects.items() %}
+                    <div class="col-md-6">
+                        <div class="p-3 border rounded bg-white">
+                            <label class="form-label small fw-bold mb-1">{{ sub_data.name }}</label>
+                            <select class="form-select form-select-sm" name="subject_{{ sub_id }}" id="select_subject_{{ sub_id }}">
+                                <option value="A+">A+ (Outstanding / 90%+)</option>
+                                <option value="A">A (Excellent / 80-89%)</option>
+                                <option value="B" selected>B (Good / 70-79%)</option>
+                                <option value="C">C (Satisfactory / 55-69%)</option>
+                                <option value="F">F (Pass / Below 55%)</option>
+                            </select>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Work Style & Environmental Preferences -->
+        <div class="card card-modern mb-4">
+            <div class="card-header-styled bg-light">
+                <h5 class="fw-bold mb-0"><i class="bi bi-briefcase-fill text-primary me-2"></i>Section 4: Work Style & Career Preferences</h5>
+                <span class="text-muted small">Aligns your personality and day-to-day work mode with organizational culture.</span>
+            </div>
+            <div class="card-body p-4">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold">Primary Work Preference</label>
+                        <select class="form-select" id="select_work_preference">
+                            {% for opt in work_styles.work_preference.options %}
+                            <option value="{{ opt.id }}">{{ opt.label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold">Preferred Workplace Culture</label>
+                        <select class="form-select" id="select_org_type">
+                            {% for opt in work_styles.organization_type.options %}
+                            <option value="{{ opt.id }}">{{ opt.label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Submission Panel -->
+        <div class="card card-modern mb-5 bg-dark text-white p-4 text-center">
+            <h4 class="fw-bold mb-2">Ready to Execute Expert System Inference?</h4>
+            <p class="text-light opacity-75 small mb-3">
+                The Forward Chaining Engine will evaluate candidate production rules, compute Certainty Factors (CF), 
+                and construct your detailed explanation trace.
+            </p>
+            <div>
+                <button type="submit" id="submit_assessment_btn" class="btn btn-primary btn-lg px-5 rounded-pill fw-bold shadow-lg">
+                    <span id="submit_spinner" class="spinner-border spinner-border-sm me-2 d-none" role="status"></span>
+                    <i class="bi bi-cpu-fill me-2"></i> Run Expert System Inference
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    // Check if query parameter has preset (e.g. ?preset=profile_ai)
+    const urlParams = new URLSearchParams(window.location.search);
+    const presetParam = urlParams.get('preset');
+    if (presetParam) {
+        const selector = document.getElementById("preset_quick_selector");
+        if (selector) selector.value = presetParam;
+        window.loadPresetProfile(presetParam);
+    } else {
+        // Default to AI preset to show complete pre-filled form
+        window.loadPresetProfile('profile_ai');
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,318 @@
+/* ==========================================================================
+   CareerWise AI - Custom Stylesheet
+   Subject: Artificial Intelligence & Expert Systems (AIES)
+   ========================================================================== */
+
+:root {
+    --primary-color: #2563eb;
+    --primary-gradient: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    --secondary-color: #64748b;
+    --accent-purple: #7c3aed;
+    --accent-emerald: #059669;
+    --accent-rose: #dc2626;
+    --accent-amber: #d97706;
+    --dark-bg: #0f172a;
+    --card-bg: #ffffff;
+    --border-color: #e2e8f0;
+    --text-primary: #1e293b;
+    --text-muted: #64748b;
+    --radius-lg: 16px;
+    --radius-md: 10px;
+    --radius-sm: 6px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.07);
+    --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--text-primary);
+    background-color: #f8fafc;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+code, pre, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* --- Top Academic Bar --- */
+.top-academic-bar {
+    background: linear-gradient(90deg, #1e1b4b 0%, #1e293b 100%);
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+}
+
+/* --- Navbar --- */
+.navbar-brand {
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+}
+
+.brand-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: var(--primary-gradient);
+    color: white;
+    border-radius: var(--radius-sm);
+}
+
+.text-primary-gradient {
+    background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.nav-link {
+    font-weight: 500;
+    font-size: 0.92rem;
+    padding: 0.5rem 0.85rem !important;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff !important;
+}
+
+/* --- Cards & UI Elements --- */
+.card-modern {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-modern:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.card-header-styled {
+    background: transparent;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1.25rem 1.5rem;
+}
+
+.hero-banner {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: white;
+    border-radius: var(--radius-lg);
+    padding: 3rem 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-banner::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 60%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.18) 0%, rgba(37, 99, 235, 0) 70%);
+    pointer-events: none;
+}
+
+/* --- Interactive Skill Rating Control --- */
+.skill-card {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.skill-card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.rating-button-group {
+    display: flex;
+    gap: 4px;
+    width: 100%;
+}
+
+.rating-btn {
+    flex: 1;
+    padding: 0.35rem 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border: 1px solid var(--border-color);
+    background-color: #f8fafc;
+    color: var(--text-muted);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.rating-btn:hover {
+    background-color: #e2e8f0;
+    color: var(--text-primary);
+}
+
+.rating-btn.active {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #ffffff;
+    box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
+}
+
+.rating-label-display {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+/* --- Interest Selectable Cards --- */
+.interest-checkbox-card {
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    background-color: #ffffff;
+    transition: all 0.2s ease;
+    user-select: none;
+    height: 100%;
+}
+
+.interest-checkbox-card:hover {
+    border-color: #93c5fd;
+    background-color: #f0f7ff;
+}
+
+.interest-checkbox-card.selected {
+    border-color: var(--primary-color);
+    background-color: #eff6ff;
+    box-shadow: 0 0 0 1px var(--primary-color);
+}
+
+/* --- Recommendation Badges & Match Cards --- */
+.career-rank-badge {
+    position: absolute;
+    top: -12px;
+    left: 24px;
+    background: var(--primary-gradient);
+    color: white;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+}
+
+.rank-card-1 {
+    border-top: 4px solid #2563eb !important;
+}
+
+.rank-card-2 {
+    border-top: 4px solid #7c3aed !important;
+}
+
+.rank-card-3 {
+    border-top: 4px solid #059669 !important;
+}
+
+.metric-pill {
+    background-color: #f1f5f9;
+    border-radius: var(--radius-sm);
+    padding: 0.4rem 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* --- Trace Terminal Box --- */
+.trace-terminal {
+    background-color: #0b132b;
+    color: #e0e7ff;
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    font-size: 0.85rem;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.trace-line {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 0.6rem 0;
+}
+
+.trace-line:last-child {
+    border-bottom: none;
+}
+
+.badge-rule {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+/* --- Roadmaps & Timeline --- */
+.timeline-phase {
+    border-left: 2px dashed #cbd5e1;
+    padding-left: 1.5rem;
+    position: relative;
+    padding-bottom: 1.5rem;
+}
+
+.timeline-phase:last-child {
+    border-left: 2px solid transparent;
+    padding-bottom: 0;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: -9px;
+    top: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    border: 3px solid #ffffff;
+    box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+/* --- Printable Report Styles --- */
+@media print {
+    .top-academic-bar,
+    .navbar,
+    .footer,
+    .no-print,
+    .btn {
+        display: none !important;
+    }
+
+    body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        font-size: 11pt;
+    }
+
+    .card-modern {
+        border: 1px solid #cccccc !important;
+        box-shadow: none !important;
+        page-break-inside: avoid;
+    }
+
+    .container {
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 0 !important;
+    }
+}
