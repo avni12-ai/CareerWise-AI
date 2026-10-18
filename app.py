@@ -301,12 +301,16 @@ def api_what_if_simulate():
     })
 
 
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5050))
-    print("=================================================================")
-    print("  CareerWise AI: Intelligent Career Guidance Expert System")
-    print("  Subject: Artificial Intelligence & Expert Systems (AIES)")
-    print(f"  Server launching at: http://127.0.0.1:{port}")
-    print("=================================================================")
-       app.run(host="0.0.0.0", port=port, debug=False)
+
+    print("============================================================")
+    print("CareerWise AI: Intelligent Career Guidance Expert System")
+    print("Subject: Artificial Intelligence & Expert Systems (AIES)")
+    print(f"Server launching on port: {port}")
+    print("============================================================")
+
+    app.run(host="0.0.0.0", port=port, debug=False)
+
     
