@@ -1,4 +1,5 @@
 
+
 pipeline {
     agent any
 
@@ -9,9 +10,8 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Environment Check') {
             steps {
-                echo 'Preparing CareerWise-AI application'
                 sh 'python3 --version'
                 sh 'docker --version'
             }
@@ -21,6 +21,13 @@ pipeline {
             steps {
                 sh 'python3 -m pip install -r requirements.txt'
                 sh 'python3 -m pytest -q'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t careerwise-ai:${BUILD_NUMBER} .'
+                sh 'docker images careerwise-ai'
             }
         }
     }
