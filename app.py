@@ -308,4 +308,5 @@ if __name__ == "__main__":
     print("  Subject: Artificial Intelligence & Expert Systems (AIES)")
     print(f"  Server launching at: http://127.0.0.1:{port}")
     print("=================================================================")
+       app.run(host="0.0.0.0", port=port, debug=False)
     app.run(host="127.0.0.1", port=port, debug=True)
