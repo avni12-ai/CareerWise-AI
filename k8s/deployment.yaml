@@ -1,7 +1,4 @@
-﻿
-
-
-apiVersion: apps/v1
+﻿apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: careerwise-ai
@@ -17,8 +14,7 @@ spec:
     spec:
       containers:
         - name: careerwise-ai
-          image: careerwise-ai:v1
-          imagePullPolicy: Never
+          image: avniirai/careerwise-ai:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 5050
-
