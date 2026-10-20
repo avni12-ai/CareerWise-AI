@@ -57,5 +57,21 @@ pipeline {
                 }
             }
         }
+
+        stage('Deploy to Minikube') {
+            agent {
+                label 'windows-minikube'
+            }
+            steps {
+                bat '''
+                    kubectl config current-context
+                    kubectl set image deployment/careerwise-ai careerwise-ai=avniirai/careerwise-ai:%BUILD_NUMBER%
+                    kubectl rollout status deployment/careerwise-ai --timeout=180s
+                    kubectl get pods
+                    kubectl get services
+                '''
+            }
+        }
     }
 }
+
