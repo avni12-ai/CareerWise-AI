@@ -309,6 +309,7 @@ if __name__ == "__main__":
     print("CareerWise AI: Intelligent  Guidance Expert System")
     print("Subject: Artificial Intelligence & Expert Systems (AIES)")
     print(f"Server launching on port: {port}")
+    print("Version: Source Code Update Demo") 
     print("============================================================")
 
     app.run(host="0.0.0.0", port=port, debug=False)
