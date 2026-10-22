@@ -1,4 +1,4 @@
-0"""
+"""
 CareerWise AI - Flask Backend Server
 Intelligent Career Guidance Expert System
 Developed for AIES (Artificial Intelligence & Expert Systems)
