@@ -1,4 +1,4 @@
-"""
+0"""
 CareerWise AI - Flask Backend Server
 Intelligent Career Guidance Expert System
 Developed for AIES (Artificial Intelligence & Expert Systems)
@@ -306,7 +306,7 @@ if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5050))
 
     print("============================================================")
-    print("CareerWise AI: Intelligent Career Guidance Expert System")
+    print("CareerWise AI: Intelligent  Guidance Expert System")
     print("Subject: Artificial Intelligence & Expert Systems (AIES)")
     print(f"Server launching on port: {port}")
     print("============================================================")
